@@ -1,5 +1,5 @@
 server:
-  port: 9099
+  port: 9094
 
 eureka:
   instance:
@@ -12,19 +12,25 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
   server:
     wait-time-in-ms-when-sync-empty: 3000
-    
+
 spring:
     datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: 'root'
         platform: mysql
-        schema: classpath:/sql/schema.sql
-        url: jdbc:mysql://localhost:3306/microservices?verifyServerCertificate=false&useSSL=false&requireSSL=false
+        url: jdbc:mysql://localhost:3306/delivery-order?verifyServerCertificate=false&useSSL=false&requireSSL=false
         username: root
     jpa:
         database-platform: org.hibernate.dialect.MySQLDialect
         generate-ddl: false
         hibernate:
-            ddl-auto: none
+            ddl-auto: create
         show-sql: true
 
+authserver:
+  hostname: http://localhost:9092
+security:
+  oauth2:
+    resource:
+      userInfoUri: ${authserver.hostname}/user
+      id: payments
